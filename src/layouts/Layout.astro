@@ -1,0 +1,80 @@
+---
+import '../styles/global.css';
+
+interface Props {
+	title: string;
+	description?: string;
+	image?: string;
+}
+
+const {
+	title,
+	description = "아름다운 순간을 영원히 간직하세요. 감성적인 웨딩 스냅 촬영 전문 서비스입니다. 예약하기, 포트폴리오 확인.",
+	image = "/images/og-default.jpg"
+} = Astro.props;
+
+// 나중에 실제 배포 도메인으로 교체해야 함. 현재는 localhost 혹은 undefined 방지
+const siteUrl = Astro.site ? Astro.site.href : 'https://example.com';
+const canonicalURL = new URL(Astro.url.pathname, siteUrl);
+---
+
+<!doctype html>
+<html lang="ko">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+
+		<!-- SEO Meta Tags -->
+		<title>{title} - 웨딩 스냅(Wedding Snap)</title>
+		<meta name="description" content={description} />
+		<meta name="keywords" content="웨딩스냅, 결혼식사진, 본식스냅, 웨딩촬영, 감성사진, 스냅예약" />
+		<link rel="canonical" href={canonicalURL} />
+		<meta name="robots" content="index, follow" />
+
+		<!-- Open Graph / Facebook / KakaoTalk -->
+		<meta property="og:type" content="website" />
+		<meta property="og:url" content={canonicalURL} />
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+		<meta property="og:image" content={new URL(image, siteUrl)} />
+		<meta property="og:locale" content="ko_KR" />
+		<meta property="og:site_name" content="Wedding Snap" />
+
+		<!-- Twitter -->
+		<meta property="twitter:card" content="summary_large_image" />
+		<meta property="twitter:url" content={canonicalURL} />
+		<meta property="twitter:title" content={title} />
+		<meta property="twitter:description" content={description} />
+		<meta property="twitter:image" content={new URL(image, siteUrl)} />
+
+		<!-- Google Fonts (Wedding Atmosphere) -->
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+		<style is:global>
+			/* 기본 폰트 설정 */
+			:root {
+				--font-serif: 'Cormorant Garamond', serif;
+				--font-sans: 'Noto Sans KR', sans-serif;
+			}
+
+			html {
+				scroll-behavior: smooth;
+			}
+
+			body {
+				font-family: var(--font-sans);
+			}
+
+			h1, h2, h3, h4, h5, h6, .font-serif {
+				font-family: var(--font-serif);
+			}
+		</style>
+	</head>
+	<body class="bg-[#FDFBF7] text-stone-800 antialiased selection:bg-rose-200 selection:text-rose-900 overflow-x-hidden">
+		<slot />
+	</body>
+</html>
